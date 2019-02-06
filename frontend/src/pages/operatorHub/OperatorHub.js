@@ -7,7 +7,7 @@ import * as _ from 'lodash-es';
 import { Alert, DropdownButton, EmptyState, Icon, MenuItem } from 'patternfly-react';
 import { CatalogTile, FilterSidePanel } from 'patternfly-react-extensions';
 
-import { fetchOperators } from '../../services/operatorsService';
+import { fetchOperators } from '../../services/localOperatorsService';
 import { helpers } from '../../common/helpers';
 
 import Footer from '../../components/Footer';
