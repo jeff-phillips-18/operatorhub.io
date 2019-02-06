@@ -4,6 +4,7 @@ import os
 import sys
 import json
 import yaml
+import sqlite3
 import fnmatch
 import logging
 import argparse
@@ -45,8 +46,9 @@ set_logging_level(args)
 
 operatorFileQuery = "*.clusterserviceversion.yaml"
 all_operators = find(operatorFileQuery, 'community-operators/community-operators')
-logging.debug(all_operators)
-all_csvs = {"operators": []}
+conn = sqlite3.connect("csvs.db")
+c = conn.cursor()
+c.execute('CREATE TABLE csvs (name, yaml)')
 
 for item in all_operators:
     try:
@@ -54,12 +56,13 @@ for item in all_operators:
         yamlNormal = yamlFile.read().replace('\t', '  ')
         yamlContent = yaml.safe_load(yamlNormal)
         displayName = yamlContent["spec"]["displayName"]
-        all_csvs["operators"].append({"name": displayName, "yaml": yaml.dump(yamlContent)})
+        data = [displayName, yaml.dump(yamlContent)]
+        c.execute('INSERT INTO csvs VALUES (?,?)', data)
         yamlFile.close()
+        conn.commit()
         logging.debug("Successfully loaded " + displayName)
     except KeyError as e:
         logging.debug("KeyError ", e)
 
-with open('csvs.json', 'w') as outfile:
-    json.dump(all_csvs, outfile)
-logging.debug("Successfully download CSVs into data/csvs.json")
+conn.close()
+logging.debug("Successfully download CSVs into database.sqlite")

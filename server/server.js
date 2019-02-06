@@ -11,7 +11,7 @@ const router = express.Router();
 
 const app = express();
 
-const setupApp = function() {
+const setupApp = function () {
   app.set('port', process.env.PORT || 9065);
   app.set('secureport', process.env.SECUREPORT || 443);
 
@@ -25,7 +25,7 @@ const setupApp = function() {
   routes(app);
 };
 
-const serverStart = function(err) {
+const serverStart = function (err) {
   if (!err) {
     // loadOperators(() => {
     server.listen(app.get('port'), () => {

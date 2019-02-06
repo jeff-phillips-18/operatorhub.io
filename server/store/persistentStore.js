@@ -2,31 +2,47 @@ const sqlite3 = require('sqlite3').verbose();
 
 let db;
 
-exports.initialize = function(callback) {
-  db = new sqlite3.Database(':memory:', sqlite3.OPEN_READWRITE, err => {
+exports.initialize = function (callback) {
+  db = new sqlite3.Database('./scripts/csvs.db', err => {
     if (err) {
       console.error(err.message);
       callback(err);
       return;
     }
-    console.log('Connected to the in-memory SQlite database.');
-    db.run('CREATE TABLE operators (name TEXT, dt TEXT)');
     callback();
   });
 };
 
-exports.close = function() {
+exports.close = function () {
   db.close();
 };
 
-exports.getOperator = function(operatorName, callback) {
+exports.getOperator = function (operatorName, callback) {
+  const query = "SELECT * FROM csvs WHERE name=?"
+  db.all(query, [operatorName], (err, rows) => {
+    if (err) {
+      console.error(err.message);
+      callback(err);
+      return;
+    }
+    callback(rows);
+  })
 };
 
-exports.getOperators = function(callback) {
+exports.getOperators = function (callback) {
+  const query = "SELECT * FROM csvs"
+  db.all(query, [], (err, rows) => {
+    if (err) {
+      console.error(err.message);
+      callback(err);
+      return;
+    }
+    callback(rows);
+  })
 };
 
-exports.clearOperators = function(callback) {
+exports.clearOperators = function (callback) {
 };
 
-exports.addOperators = function(operators, callback) {
+exports.addOperators = function (operators, callback) {
 };
