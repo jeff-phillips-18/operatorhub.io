@@ -5,8 +5,8 @@ import { helpers } from '../common/helpers';
 import { reduxConstants } from '../redux';
 import { mockOperators } from '../__mock__/operators';
 
-const allOperatorsRequest = process.env.DEV_MODE ? `http://localhost:9065/api/operators` : `/api/operators`;
-const operatorRequest = process.env.DEV_MODE ? `http://localhost:9065/api/operator` : `/api/operator`;
+const allOperatorsRequest = process.env.DEV_MODE ? `https://localhost:9443/api/operators` : `/api/operators`;
+const operatorRequest = process.env.DEV_MODE ? `https://localhost:9443/api/operator` : `/api/operator`;
 
 const addVersionedOperator = (operators, newOperator) => {
   const existingOperator = _.find(operators, { name: newOperator.name });
