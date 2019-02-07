@@ -1,7 +1,7 @@
 const { exec } = require('child_process');
 
 const updateLocalOperators = (serverRequest, serverResponse) => {
-  exec('./scripts/update-operators.sh ${process.env.COMMUNTIY_REPO}.git', (err, stdout, stderr) => {
+  exec(`./scripts/update-operators.sh ${process.env.COMMUNTIY_REPO}.git`, (err, stdout, stderr) => {
     if (err) {
       // node couldn't execute the command
       serverResponse.status(500).send(stderr);
