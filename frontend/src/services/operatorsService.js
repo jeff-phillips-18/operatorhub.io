@@ -6,6 +6,7 @@ import { reduxConstants } from '../redux';
 import { mockOperators } from '../__mock__/operators';
 
 const allOperatorsRequest = process.env.DEV_MODE ? `http://localhost:9065/api/operators` : `/api/operators`;
+const operatorRequest = process.env.DEV_MODE ? `http://localhost:9065/api/operator` : `/api/operator`;
 
 const addVersionedOperator = (operators, newOperator) => {
   const existingOperator = _.find(operators, { name: newOperator.name });
@@ -55,29 +56,21 @@ const fetchOperator = operatorName => dispatch => {
 
   if (process.env.MOCK_MODE) {
     dispatch({
-      type: helpers.FULFILLED_ACTION(reduxConstants.GET_OPERATORS),
+      type: helpers.FULFILLED_ACTION(reduxConstants.GET_OPERATOR),
       payload: getVersionedOperators(_.cloneDeep(_.filter(mockOperators, { name: operatorName })))
     });
     return;
   }
 
-  axios.get(allOperatorsRequest).then(response => {
+  const config = { params: { name: operatorName } };
+  axios.get(operatorRequest, config).then(response => {
     const responseOperators = response.data.operators;
     const operators = getVersionedOperators(responseOperators);
+    console.dir(operators);
 
-    if (operatorName) {
-      const operator = _.find(operators, { name: operatorName });
-      if (operator) {
-        dispatch({
-          type: helpers.FULFILLED_ACTION(reduxConstants.GET_OPERATOR),
-          payload: operator
-        });
-      }
-      return;
-    }
     dispatch({
-      type: helpers.FULFILLED_ACTION(reduxConstants.GET_OPERATORS),
-      payload: operators
+      type: helpers.FULFILLED_ACTION(reduxConstants.GET_OPERATOR),
+      payload: operators[0]
     });
   });
 };

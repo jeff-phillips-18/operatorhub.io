@@ -5,7 +5,7 @@ const https = require('https');
 const forceSSL = require('express-force-ssl');
 const _ = require('lodash');
 
-const operatorsService = require('./services/operatorsService');
+const loadService = require('./services/loadService');
 const persistentStore = require('./store/persistentStore');
 const routes = require('./routes/routes');
 const mockOperators = require('./__mock__/operators');
@@ -57,7 +57,7 @@ const populateDBMock = () => {
 };
 
 const populateDB = () => {
-  operatorsService.retrieveOperators(serverStart);
+  loadService.loadOperators(serverStart);
 };
 
 const populate = mockMode ? populateDBMock : populateDB;

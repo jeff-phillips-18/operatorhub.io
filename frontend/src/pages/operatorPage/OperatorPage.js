@@ -15,25 +15,11 @@ import { OperatorHeader } from './OperatorHeader';
 
 class OperatorPage extends React.Component {
   state = {
-    operator: {},
     searchValue: ''
   };
 
   componentDidMount() {
-    this.setState({ operator: this.props.operator });
     this.refresh();
-  }
-
-  componentDidUpdate(prevProps) {
-    const { operator } = this.props;
-
-    if (operator && !_.isEqual(operator, prevProps.operator)) {
-      let stateOperator = operator;
-      if (this.state.operator) {
-        stateOperator = _.find(operator.version, { version: this.state.operator.version }) || operator;
-      }
-      this.setState({ operator: stateOperator });
-    }
   }
 
   refresh() {
@@ -123,7 +109,8 @@ class OperatorPage extends React.Component {
   };
 
   renderToolbar() {
-    const { fixedHeader, scrollTop, headerHeight, operator } = this.state;
+    const { operator } = this.props;
+    const { fixedHeader, scrollTop, headerHeight } = this.state;
     const toolbarStyle = fixedHeader ? { top: scrollTop || 0, marginTop: headerHeight || 0 } : null;
 
     return (
@@ -141,8 +128,7 @@ class OperatorPage extends React.Component {
   }
 
   renderDetails() {
-    const { error, pending } = this.props;
-    const { operator } = this.state;
+    const { operator, error, pending } = this.props;
 
     if (error) {
       return this.renderError();

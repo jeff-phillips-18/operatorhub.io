@@ -49,7 +49,7 @@ exports.close = () => {
 };
 
 exports.getOperator = (operatorName, callback) => {
-  db.all(`SELECT * FROM ${OPERATOR_TABLE} where name = ${operatorName}`, (err, rows) => {
+  db.all(`SELECT * FROM ${OPERATOR_TABLE} where name = '${operatorName}'`, (err, rows) => {
     if (err) {
       console.error(err.message);
     }
