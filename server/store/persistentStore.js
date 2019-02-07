@@ -81,7 +81,6 @@ exports.setOperators = (operators, callback) => {
       () => {
         db.run('BEGIN TRANSACTION');
         operators.forEach(operator => {
-          console.dir(operator);
           db.run(sql, [
             operator.name,
             operator.version,

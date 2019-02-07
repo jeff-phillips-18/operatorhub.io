@@ -305,7 +305,7 @@ class OperatorHub extends React.Component {
 
   setURLParams = params => {
     const url = new URL(window.location);
-    const searchParams = `?${params.toString()}${url.hash}`;
+    const searchParams = `?${params.toString()}`;
 
     this.props.history.replace(`${url.pathname}${searchParams}`);
   };
@@ -439,7 +439,7 @@ class OperatorHub extends React.Component {
 
   openDetails = (event, operator) => {
     event.preventDefault();
-    this.props.history.push(`/${operator.name}`);
+    this.props.history.push(`/operator/${operator.name}`);
   };
 
   updateViewType = viewType => {
