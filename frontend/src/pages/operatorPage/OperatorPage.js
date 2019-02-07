@@ -8,7 +8,7 @@ import { PropertiesSidePanel, PropertyItem } from 'patternfly-react-extensions';
 
 import Footer from '../../components/Footer';
 import { helpers } from '../../common/helpers';
-import { fetchOperators } from '../../services/localOperatorsService';
+import { fetchOperator } from '../../services/operatorsService';
 import { MarkdownView } from '../../components/MarkdownView';
 import { ExternalLink } from '../../components/ExternalLink';
 import { OperatorHeader } from './OperatorHeader';
@@ -38,7 +38,7 @@ class OperatorPage extends React.Component {
 
   refresh() {
     const { match } = this.props;
-    this.props.fetchOperators(_.get(match, 'params.operatorId'));
+    this.props.fetchOperator(_.get(match, 'params.operatorId'));
   }
 
   onHome = e => {
@@ -286,7 +286,7 @@ OperatorPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,
-  fetchOperators: PropTypes.func
+  fetchOperator: PropTypes.func
 };
 
 OperatorPage.defaultProps = {
@@ -295,11 +295,11 @@ OperatorPage.defaultProps = {
   errorMessage: '',
   pending: false,
   match: {},
-  fetchOperators: helpers.noop
+  fetchOperator: helpers.noop
 };
 
 const mapDispatchToProps = dispatch => ({
-  fetchOperators: name => dispatch(fetchOperators(name))
+  fetchOperator: name => dispatch(fetchOperator(name))
 });
 
 const mapStateToProps = state => ({

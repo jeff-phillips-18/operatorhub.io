@@ -1,3 +1,7 @@
+const _ = require('lodash');
+
+const operatorsService = require('./operatorsService');
+
 const { exec } = require('child_process');
 
 const updateLocalOperators = (serverRequest, serverResponse) => {
@@ -12,6 +16,9 @@ const updateLocalOperators = (serverRequest, serverResponse) => {
     console.log(`stdout: ${stdout}`);
     console.log(`stderr: ${stderr}`);
     serverResponse.send(stdout);
+    operatorsService.retrieveOperators(err => {
+      console.error(`Error loading operators: ${_.get(err, 'response.data.message', err)}`);
+    });
   });
 };
 
